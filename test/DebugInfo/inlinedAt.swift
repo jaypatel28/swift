@@ -2,12 +2,12 @@
 // RUN:    | FileCheck %s --check-prefix=CHECK-SIL
 // RUN: %target-swift-frontend %s -O -I %t -emit-ir -g -o - | FileCheck %s
 
-public var glob : Int = 0
-@inline(never) public func hold(_ n : Int) { glob = n }
+import StdlibUnittest
+@inline(never) func hold(_ n : Int) { _blackHole(n) }
 
 #sourceLocation(file: "abc.swift", line: 100)
 @inline(__always)
-func h(_ k : Int) -> Int {      // 101
+func h(_ k : Int) -> Int {        // 101
   hold(k)                       // 102
   return k                      // 103
 }
